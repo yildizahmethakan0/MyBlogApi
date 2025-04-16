@@ -45,7 +45,10 @@ app.UseStaticFiles();
 app.UseAuthentication();
 app.UseAuthorization();
 
+<<<<<<< HEAD
 //  Sabit kullanıcı
+=======
+>>>>>>> 70f359a (front end güncellendi)
 var username = "admin";
 var password = "Sifre123!";
 
@@ -129,6 +132,10 @@ app.MapDelete("/blogs/{id:int}",
 
 app.Run();
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 70f359a (front end güncellendi)
 public record UserLogin(
     [property: JsonPropertyName("username")] string Username,
     [property: JsonPropertyName("password")] string Password);

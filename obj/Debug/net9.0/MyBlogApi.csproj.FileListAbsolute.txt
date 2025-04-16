@@ -158,4 +158,5 @@ C:\Users\Hakan\Desktop\blogger\MyBlogApi\obj\Debug\net9.0\refint\MyBlogApi.dll
 C:\Users\Hakan\Desktop\blogger\MyBlogApi\obj\Debug\net9.0\MyBlogApi.pdb
 C:\Users\Hakan\Desktop\blogger\MyBlogApi\obj\Debug\net9.0\MyBlogApi.genruntimeconfig.cache
 C:\Users\Hakan\Desktop\blogger\MyBlogApi\obj\Debug\net9.0\ref\MyBlogApi.dll
-C:\Users\Hakan\Desktop\blogger\MyBlogApi\obj\Debug\net9.0\compressed\itg9dudi4e-ftoltnz6v6.gz
+C:\Users\Hakan\Desktop\blogger\MyBlogApi\obj\Debug\net9.0\MyBlogApi.sourcelink.json
+C:\Users\Hakan\Desktop\blogger\MyBlogApi\obj\Debug\net9.0\compressed\itg9dudi4e-0n28nr49ge.gz
