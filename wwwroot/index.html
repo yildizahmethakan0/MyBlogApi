@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="tr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Minimal Blog Paneli</title>
+    <style>
+      body {
+        font-family: "Segoe UI", sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f5f7fa;
+        color: #333;
+      }
+
+      .container {
+        max-width: 800px;
+        margin: auto;
+        padding: 2rem;
+      }
+
+      h1,
+      h2 {
+        text-align: center;
+        color: #2c3e50;
+      }
+
+      input,
+      textarea {
+        width: 100%;
+        padding: 10px;
+        margin-top: 10px;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+        box-sizing: border-box;
+        font-size: 16px;
+      }
+
+      textarea {
+        resize: vertical;
+      }
+
+      button {
+        background-color: #3498db;
+        color: white;
+        border: none;
+        padding: 10px 16px;
+        border-radius: 6px;
+        font-size: 15px;
+        cursor: pointer;
+        margin-top: 10px;
+        transition: background-color 0.3s ease;
+      }
+
+      button:hover {
+        background-color: #2980b9;
+      }
+
+      .blog {
+        background-color: white;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        padding: 16px;
+        margin-top: 20px;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+      }
+
+      .blog h3 {
+        margin: 0 0 10px;
+        color: #34495e;
+      }
+
+      .blog small {
+        color: #888;
+      }
+
+      .blog button {
+        margin-right: 10px;
+        background-color: #e74c3c;
+      }
+
+      .blog button:hover {
+        background-color: #c0392b;
+      }
+
+      .edit-btn {
+        background-color: #2ecc71;
+      }
+
+      .edit-btn:hover {
+        background-color: #27ae60;
+      }
+
+      @media (max-width: 600px) {
+        .container {
+          padding: 1rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>📝 Minimal Blog Paneli</h1>
+
+      <div id="loginSection">
+        <h2>Giriş Yap</h2>
+        <input id="username" placeholder="Kullanıcı adı" value="admin" />
+        <input
+          id="password"
+          type="password"
+          placeholder="Şifre"
+          value="Sifre123!"
+        />
+        <button onclick="login()">Giriş Yap</button>
+      </div>
+
+      <div id="blogSection" style="display: none">
+        <h2>Yeni Blog Yaz</h2>
+        <input id="title" placeholder="Başlık" />
+        <textarea id="content" placeholder="İçerik" rows="5"></textarea>
+        <button onclick="createBlog()">➕ Blog Ekle</button>
+        <hr />
+        <h2>Bloglar</h2>
+        <div id="blogList"></div>
+      </div>
+    </div>
+
+    <script>
+      const api = "http://localhost:5052";
+      let token = localStorage.getItem("token");
+
+      function login() {
+        const username = document.getElementById("username").value;
+        const password = document.getElementById("password").value;
+
+        fetch(api + "/login", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ username, password }),
+        })
+          .then((res) =>
+            res.ok
+              ? res.json()
+              : Promise.reject("❌ Giriş başarısız. Bilgileri kontrol et.")
+          )
+          .then((data) => {
+            token = data.token;
+            localStorage.setItem("token", token);
+            document.getElementById("loginSection").style.display = "none";
+            document.getElementById("blogSection").style.display = "block";
+            loadBlogs();
+          })
+          .catch(alert);
+      }
+
+      function loadBlogs() {
+        fetch(api + "/blogs")
+          .then((res) => res.json())
+          .then((blogs) => {
+            const blogList = document.getElementById("blogList");
+            blogList.innerHTML = "";
+            blogs.forEach((b) => {
+              blogList.innerHTML += `
+            <div class="blog">
+              <h3>${b.title}</h3>
+              <p>${b.content}</p>
+              <small>🕒 ${new Date(
+                b.createdAt
+              ).toLocaleString()}</small><br/><br/>
+              <button onclick="deleteBlog(${b.id})">🗑️ Sil</button>
+              <button class="edit-btn" onclick="editBlog(${
+                b.id
+              }, '${b.title.replace(/'/g, "\\'")}', \`${b.content.replace(
+                /`/g,
+                "\\`"
+              )}\`)">✏️ Düzenle</button>
+            </div>`;
+            });
+          });
+      }
+
+      function createBlog() {
+        const title = document.getElementById("title").value.trim();
+        const content = document.getElementById("content").value.trim();
+
+        if (!title || !content) return alert("Başlık ve içerik boş olamaz!");
+
+        fetch(api + "/blogs", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + token,
+          },
+          body: JSON.stringify({ title, content }),
+        }).then(() => {
+          document.getElementById("title").value = "";
+          document.getElementById("content").value = "";
+          loadBlogs();
+        });
+      }
+
+      function deleteBlog(id) {
+        if (!confirm("Silmek istediğine emin misin?")) return;
+
+        fetch(api + "/blogs/" + id, {
+          method: "DELETE",
+          headers: { Authorization: "Bearer " + token },
+        }).then(loadBlogs);
+      }
+
+      function editBlog(id, title, content) {
+        const newTitle = prompt("Yeni başlık", title);
+        const newContent = prompt("Yeni içerik", content);
+        if (!newTitle || !newContent) return;
+
+        fetch(api + "/blogs/" + id, {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + token,
+          },
+          body: JSON.stringify({ title: newTitle, content: newContent }),
+        }).then(loadBlogs);
+      }
+
+      if (token) {
+        document.getElementById("loginSection").style.display = "none";
+        document.getElementById("blogSection").style.display = "block";
+        loadBlogs();
+      }
+    </script>
+  </body>
+</html>
