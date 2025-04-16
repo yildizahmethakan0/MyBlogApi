@@ -10,15 +10,15 @@ using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// 🔐 JWT Ayarları
+//  JWT Ayarları
 var jwt = builder.Configuration.GetSection("Jwt");
 var keyBytes = Encoding.UTF8.GetBytes(jwt["Key"]!);
 
-// 💾 Veritabanı
+// Veritabanı
 builder.Services.AddDbContext<BlogDbContext>(opts =>
     opts.UseSqlite(builder.Configuration.GetConnectionString("Default")));
 
-// 🔐 Authentication ve Authorization
+//  Authentication ve Authorization
 builder.Services
   .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
   .AddJwtBearer(options =>
@@ -45,11 +45,11 @@ app.UseStaticFiles();
 app.UseAuthentication();
 app.UseAuthorization();
 
-// 🧪 Sabit kullanıcı
+//  Sabit kullanıcı
 var username = "admin";
 var password = "Sifre123!";
 
-// 🔐 Login endpoint
+//  Login endpoint
 app.MapPost("/login", (UserLogin creds) =>
 {
     Console.WriteLine($"Giriş denemesi: {creds.Username} / {creds.Password}");
@@ -76,7 +76,7 @@ app.MapPost("/login", (UserLogin creds) =>
 });
 
 
-// 🌐 Blog Endpoints
+//  Blog Endpoints
 
 // 1) Blogları Listele (herkese açık)
 app.MapGet("/blogs", async (BlogDbContext db) =>
@@ -129,7 +129,6 @@ app.MapDelete("/blogs/{id:int}",
 
 app.Run();
 
-// ✅ UserLogin modeli – JSON alan isimleri uyumlu
 public record UserLogin(
     [property: JsonPropertyName("username")] string Username,
     [property: JsonPropertyName("password")] string Password);
