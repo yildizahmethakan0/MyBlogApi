@@ -46,7 +46,7 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 <<<<<<< HEAD
-//  Sabit kullanıcı
+// Sabit kullanıcı
 =======
 >>>>>>> 70f359a (front end güncellendi)
 var username = "admin";
