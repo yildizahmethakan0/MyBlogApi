@@ -2,17 +2,17 @@
 
 Bu proje, **ASP.NET Core Minimal API** kullanarak geliştirilmiş bir blog uygulamasıdır. Kullanıcılar, JWT ile giriş yaparak blog yazılarını görüntüleyebilir, ekleyebilir, güncelleyebilir ve silebilir.
 
-## 🚀 Özellikler
+## Özellikler
 
-- 🔐 **JWT Token** ile kimlik doğrulama
-- 📄 **CRUD** işlemleri (Blog oluştur, listele, güncelle, sil)
-- 🧑‍💻 **Admin girişi**
-- 💅 **Modern**, **responsive** ve kullanıcı dostu **frontend** tasarımı
-- ⚡ **Entity Framework Core** + **SQLite** veritabanı
-- 🧱 **Minimal API** kullanımı
-- 🧪 **Swagger** desteği (API testleri için)
+-  **JWT Token** ile kimlik doğrulama
+-  **CRUD** işlemleri (Blog oluştur, listele, güncelle, sil)
+-  **Admin girişi**
+-  **Modern**, **responsive** ve kullanıcı dostu **frontend** tasarımı
+-  **Entity Framework Core** + **SQLite** veritabanı
+-  **Minimal API** kullanımı
+-  **Swagger** desteği (API testleri için)
 
-## 🛠️ Kullanılan Teknolojiler
+##  Kullanılan Teknolojiler
 
 | Teknoloji               | Açıklama                                   |
 |-------------------------|--------------------------------------------|
@@ -28,7 +28,7 @@ Bu proje, **ASP.NET Core Minimal API** kullanarak geliştirilmiş bir blog uygul
 ![minimal](https://github.com/user-attachments/assets/c5ef4b0b-5851-4a8f-a245-9ff33fb21715)
 
 
-## 📦 Kurulum ve Çalıştırma
+## Kurulum ve Çalıştırma
 
 Bu projeyi bilgisayarınızda çalıştırmak için aşağıdaki adımları takip edebilirsiniz.
 
